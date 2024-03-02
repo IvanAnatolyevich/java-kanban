@@ -51,13 +51,11 @@ private HashMap<Integer, Epic> epics = new HashMap<>();
    }
    public Task deleteTask(int id) {
       Task task = tasks.get(id);
-      tasks.get(id).setStatus(Status.DONE);
       tasks.remove(id);
       return task;
    }
    public Subtask deleteSubtask(int id) {
       Subtask subtask = subtasks.get(id);
-      //suptasks.get(id).setStatus(main.controllers.util.Status.DONE);
       epics.get(subtasks.get(id).getEpicId()).getSubtasks().remove(id);
       changeEpicStatus(epics.get(subtasks.get(id).getEpicId()));
       subtasks.remove(id);
@@ -65,7 +63,6 @@ private HashMap<Integer, Epic> epics = new HashMap<>();
    }
    public Epic deleteEpic(int id) {
       Epic epic = epics.get(id);
-      //epics.get(id).setStatus(main.controllers.util.Status.DONE);
       for(Subtask el: subtasks.values()) {
          for(Integer i: epics.get(id).getSubtasks()) {
             if (el.getId() == i) {
@@ -87,13 +84,11 @@ private HashMap<Integer, Epic> epics = new HashMap<>();
    }
    public Task updatedTask(Task updatedTask) {
       //main.controllers.model.Task currentTask = tasks.get(updatedTask.id);
-      //updatedTask.setStatus(main.controllers.util.Status.IN_PROGRESS);
       tasks.put(updatedTask.getId(), updatedTask);
       return updatedTask;
    }
    public Subtask updatedSubtask(Subtask updatedSubtask) {
       //main.controllers.model.Subtask currentSubtask = subtasks.get(updatedSubtask.id);
-      //updatedSubtask.setStatus(main.controllers.util.Status.IN_PROGRESS);
       subtasks.put(updatedSubtask.getId(), updatedSubtask);
       changeEpicStatus(epics.get(updatedSubtask.getEpicId()));
       return updatedSubtask;
