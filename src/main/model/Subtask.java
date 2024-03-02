@@ -1,7 +1,9 @@
-public class Suptask extends Task {
+package main.model;
+
+public class Subtask extends Task {
     private Integer epicId;
-    public Suptask(String discription) {
-        super(discription);
+    public Subtask(String title, String discription) {
+        super(title, discription);
     }
     public void setEpicId(int id) {
         epicId = id;
