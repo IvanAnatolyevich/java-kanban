@@ -56,7 +56,7 @@ private HashMap<Integer, Epic> epics = new HashMap<>();
    }
    public Subtask deleteSubtask(int id) {
       Subtask subtask = subtasks.get(id);
-      epics.get(subtasks.get(id).getEpicId()).getSubtasks().remove(id);
+      epics.get(subtasks.get(id).getEpicId()).getSubtasks().remove(new Integer(id));
       changeEpicStatus(epics.get(subtasks.get(id).getEpicId()));
       subtasks.remove(id);
       return subtask;
