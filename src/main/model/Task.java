@@ -1,6 +1,5 @@
 package main.model;
 import main.util.Status;
-import java.util.Objects;
 
 public class Task {
     private int id;
