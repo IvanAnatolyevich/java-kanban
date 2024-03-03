@@ -39,8 +39,12 @@ public class Main {
         manager.updatedSubtask(subtask3);
         System.out.println(epic1.getStatus() + ", " + epic2.getStatus());
 
+        System.out.println(epic2.getSubtasks());
+
         manager.deleteEpic(2);
         manager.deleteSubtask(6);
+        System.out.println(epic2.getSubtasks());
+
 
         System.out.println(manager.getTasks());
         System.out.println(manager.getEpics());
