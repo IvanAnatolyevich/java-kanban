@@ -18,7 +18,6 @@ public InMemoryTaskManager(HistoryManager historyManager) {
 
    @Override
    public Task addTask(Task newTask) {
-      //newTask.setStatus(Status.NEW);
       Task task = new Task(newTask.getTitle(), newTask.getDiscription(), newTask.getStatus());
       newTask.setId(IdGenerate.generationNewId());
       task.setId(newTask.getId());
@@ -41,7 +40,6 @@ public InMemoryTaskManager(HistoryManager historyManager) {
       newSuptask.setId(IdGenerate.generationNewId());
       subtask.setId(newSuptask.getId());
       subtask.setEpicId(newSuptask.getEpicId());
-      //newSuptask.setStatus(Status.NEW);
       epics.get(epicId).getSubtasks().add(subtask.getId());
       subtasks.put(subtask.getId(), subtask);
       changeEpicStatus(epics.get(epicId));
@@ -52,7 +50,6 @@ public InMemoryTaskManager(HistoryManager historyManager) {
       Epic epic = new Epic(newEpic.getTitle(), newEpic.getDiscription(), newEpic.getStatus());
       newEpic.setId(IdGenerate.generationNewId());
       epic.setId(newEpic.getId());
-      //newEpic.setStatus(Status.NEW);
       epics.put(epic.getId(), epic);
       return epic;
    }
@@ -106,56 +103,32 @@ public InMemoryTaskManager(HistoryManager historyManager) {
    }
    @Override
    public Task getTask(int id) {
-      Task task = new Task(tasks.get(id).getTitle(), tasks.get(id).getDiscription(), tasks.get(id).getStatus());
-      task.setId(id);
-      if(historyManager.getHistory().size() < 10) {
-         historyManager.add(task);
-      } else {
-         historyManager.getHistory().remove(0);
-         historyManager.add(task);
-      }
+      historyManager.add(tasks.get(id));
        return tasks.get(id);
    }
    @Override
    public Subtask getSubtask(int id) {
-      Subtask subtask = new Subtask(subtasks.get(id).getTitle(), subtasks.get(id).getDiscription(), subtasks.get(id).getStatus());
-      subtask.setId(id);
-      if(historyManager.getHistory().size() < 10) {
-         historyManager.add(subtask);
-      } else {
-         historyManager.getHistory().remove(0);
-         historyManager.add(subtask);
-      }
+      historyManager.add(subtasks.get(id));
        return subtasks.get(id);
    }
    @Override
    public Epic getEpic(int id) {
-      Epic epic = new Epic(epics.get(id).getTitle(), epics.get(id).getDiscription(), epics.get(id).getStatus());
-      epic.setId(id);
-      if(historyManager.getHistory().size() < 10) {
-         historyManager.add(epic);
-      } else {
-         historyManager.getHistory().remove(0);
-         historyManager.add(epic);
-      }
+      historyManager.add(epics.get(id));
       return epics.get(id);
    }
    @Override
    public Task updatedTask(Task updatedTask) {
-      //main.controllers.model.Task currentTask = tasks.get(updatedTask.id);
       tasks.put(updatedTask.getId(), updatedTask);
       return updatedTask;
    }
    @Override
    public Subtask updatedSubtask(Subtask updatedSubtask) {
-      //main.controllers.model.Subtask currentSubtask = subtasks.get(updatedSubtask.id);
       subtasks.put(updatedSubtask.getId(), updatedSubtask);
       changeEpicStatus(epics.get(updatedSubtask.getEpicId()));
       return updatedSubtask;
    }
    @Override
    public Epic updatedEpic(Epic updatedEpic) {
-      //main.controllers.model.Epic currentEpic = epics.get(updatedEpic.id);
       changeEpicStatus(updatedEpic);
       epics.put(updatedEpic.getId(), updatedEpic);
 
