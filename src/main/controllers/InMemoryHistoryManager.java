@@ -3,9 +3,8 @@ package main.controllers;
 import main.model.Task;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
     private HashMap<Integer, Node> history = new HashMap<>();
     private Node head = null;
     private Node tail = null;
