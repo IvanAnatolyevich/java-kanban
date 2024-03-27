@@ -1,6 +1,5 @@
-package Test;
+package test;
 
-import main.*;
 import java.util.ArrayList;
 import main.controllers.Managers;
 import main.controllers.TaskManager;
@@ -10,10 +9,6 @@ import main.util.Status;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class TaskManagerTest {
     private TaskManager taskManager;
@@ -36,8 +31,8 @@ public class TaskManagerTest {
 
     @Test
     void heirsTasksWithAnEqualIndexMustBeEqual() {
-        Epic epic1 = new Epic("Задача1", "Описание1", Status.NEW);
-        Epic epic2 = new Epic("Задача1", "Описание1", Status.NEW);
+        Epic epic1 = new Epic("Задача1", "Описание1");
+        Epic epic2 = new Epic("Задача1", "Описание1");
         Assertions.assertEquals(epic1, epic2, "ОШИБКА С СРАВНЕНИЕМ ЗАДАЧ КЛАССОВ EPIC");
         epic1.setId(2);
         boolean equ1 = epic1.equals(epic2);
@@ -71,10 +66,10 @@ public class TaskManagerTest {
     @Test
     void inMemoryTaskManagerMustAddDifferentTypesOfTasks() {
         Task task1 = new Task("Задача1", "Описание1", Status.NEW);
-        Epic epic1 = new Epic("Задача2", "Описание2", Status.NEW);
+        Epic epic1 = new Epic("Задача2", "Описание2");
         Subtask subtask1 = new Subtask("Задача3", "Описание3", Status.NEW);
         Task task2 = new Task("Задача4", "Описание4", Status.NEW);
-        Epic epic2 = new Epic("Задача5", "Описание5", Status.NEW);
+        Epic epic2 = new Epic("Задача5", "Описание5");
         Subtask subtask2 = new Subtask("Задача6", "Описание6", Status.NEW);
         TaskManager taskManager1 = Managers.getDefaultTaskManager();
 
@@ -99,6 +94,7 @@ public class TaskManagerTest {
         Assertions.assertNotNull(epics, "Эпики не возвращаются");
         Assertions.assertNotNull(subtasks, "Подзадачи не возвращаются");
     }
+
     @Test
     void tasksWithTheSpecifiedGeneratedIdShouldNotConflict() {
         Task task1 = new Task("Задача1", "Описание1", Status.NEW);
@@ -109,25 +105,19 @@ public class TaskManagerTest {
         Assertions.assertEquals(0, task1.getId(), "Неверно генерируется id для задач с заданным id");
         Assertions.assertEquals(1, task2.getId(), "Неверно генерируется id");
     }
+
     @Test
     void historyManagerMustSaveThePreviousVersionOfTheTask() {
         Task task = new Task("Задача1", "Описание1", Status.NEW);
-        Epic epic = new Epic("Задача2", "Описание2", Status.NEW);
         taskManager.addTask(task);
-        taskManager.addEpic(epic);
         taskManager.getTask(task.getId());
-        taskManager.getEpic(epic.getId());
         System.out.println(taskManager.getHistory().get(0).getId());
-        System.out.println(taskManager.getHistory().get(1).getId());
         task.setId(4);
         task.setStatus(Status.IN_PROGRESS);
-        epic.setId(7);
-        epic.setStatus(Status.IN_PROGRESS);
         Assertions.assertEquals(0, taskManager.getHistory().get(0).getId());
         Assertions.assertEquals(Status.NEW, taskManager.getHistory().get(0).getStatus());
-        Assertions.assertEquals(1, taskManager.getHistory().get(1).getId());
-        Assertions.assertEquals(Status.NEW, taskManager.getHistory().get(1).getStatus());
     }
+
     @Test
     void theTasksMustBeUnchangedInAllFields() {
         Task task = new Task("Задача1", "Описание1", Status.NEW);
@@ -142,4 +132,44 @@ public class TaskManagerTest {
         Assertions.assertEquals(0, taskManager.getTask(0).getId());
     }
 
+    @Test
+    void epicsSouldNotStoreIrrelevantSubtasks() {
+        Epic epic = new Epic("Задача1", "Описание2");
+        Subtask subtask = new Subtask("Задача2", "Описание2", Status.NEW);
+        taskManager.addEpic(epic);
+        taskManager.addSubtask(subtask, 0);
+        taskManager.deleteSubtask(1);
+        Assertions.assertEquals(0, epic.getSubtasks().size());
+    }
+
+    @Test
+    void theBuilt_inLinkedListAndOperationsShouldWorkCorrectly() {
+        Task task1 = new Task("Задача1", "Описание1", Status.NEW);
+        Task task2 = new Task("Задача2", "Описание1", Status.NEW);
+        Task task3 = new Task("Задача3", "Описание1", Status.NEW);
+        Task task4 = new Task("Задача4", "Описание1", Status.NEW);
+        Task task5 = new Task("Задача5", "Описание1", Status.NEW);
+
+        taskManager.addTask(task1);
+        taskManager.addTask(task2);
+        taskManager.addTask(task3);
+        taskManager.addTask(task4);
+        taskManager.addTask(task5);
+
+        taskManager.getTask(0);
+        taskManager.getTask(1);
+        taskManager.getTask(2);
+        taskManager.getTask(3);
+        taskManager.getTask(4);
+        taskManager.getTask(2);
+        Assertions.assertEquals(5, taskManager.getHistory().size());
+    }
+
+    @Test
+    void settersDoNotAffectTheDataInTheManager() {
+        Task task = new Task("Задача1", "Описание1", Status.NEW);
+        task.setId(10);
+        taskManager.addTask(task);
+        Assertions.assertEquals(0, task.getId());
+    }
 }

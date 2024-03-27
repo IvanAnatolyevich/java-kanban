@@ -8,11 +8,18 @@ public class Task {
    private Status status;
    private String discription;
    private String title;
+
+   public Task(String title, String discription) {
+       this.title = title;
+       this.discription = discription;
+   }
+
    public Task(String title, String discription, Status status) {
        this.title = title;
        this.discription = discription;
        this.status = status;
    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -24,6 +31,7 @@ public class Task {
                 Objects.equals(id, task.id);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(title, discription, status, id);
@@ -34,33 +42,37 @@ public class Task {
         return title;
     }
 
-
     public void setStatus(Status status) {
        this.status = status;
    }
+
    public Status getStatus() {
        return status;
    }
+
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
        this.id = id;
     }
+
     public String getTitle() {
        return title;
     }
+
     public String getDiscription() {
        return discription;
     }
+
     public void setTitle(String title) {
        this.title = title;
     }
+
     public void setDiscription(String discription) {
        this.discription = discription;
     }
-
-
 }
 
 
