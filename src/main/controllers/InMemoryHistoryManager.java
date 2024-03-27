@@ -39,8 +39,6 @@ public class InMemoryHistoryManager implements HistoryManager{
         newNode.prev = null;
     }
 
-
-
     @Override
     public void add(Task task) {
         if (history.containsKey(task.getId())) {
@@ -53,9 +51,11 @@ public class InMemoryHistoryManager implements HistoryManager{
         }
             history.put(task.getId(), linkLast(task));
     }
+
     public void remove(int id) {
         history.remove(id);
     }
+
     @Override
     public ArrayList<Task> getHistory() {
         return getTasks();

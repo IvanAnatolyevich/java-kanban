@@ -6,6 +6,7 @@ public class IdGenerate {
     public static int generationNewId() {
         return id++;
     }
+
     public static void resetId() {
         id = 0;
     }
