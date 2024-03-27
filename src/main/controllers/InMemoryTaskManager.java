@@ -85,7 +85,8 @@ public InMemoryTaskManager(HistoryManager historyManager) {
       Subtask subtask = subtasks.get(id);
       epics.get(subtasks.get(id).getEpicId()).getSubtasks().remove(Integer.valueOf(id));
       changeEpicStatus(epics.get(subtasks.get(id).getEpicId()));
-      subtasks.remove(id);
+      subtasks.get(id).setId(-1);
+      subtasks.remove(subtask.getId());
       return subtask;
    }
    @Override

@@ -141,5 +141,42 @@ public class TaskManagerTest {
         Assertions.assertEquals(Status.NEW, taskManager.getTask(0).getStatus());
         Assertions.assertEquals(0, taskManager.getTask(0).getId());
     }
+    @Test
+    void epicsSouldNotStoreIrrelevantSubtasks() {
+        Epic epic = new Epic("Задача1", "Описание2", Status.NEW);
+        Subtask subtask = new Subtask("Задача2", "Описание2", Status.NEW);
+        taskManager.addEpic(epic);
+        taskManager.addSubtask(subtask, 0);
+        taskManager.deleteSubtask(1);
+        Assertions.assertEquals(0, epic.getSubtasks().size());
+    }
+    @Test
+    void theBuilt_inLinkedListAndOperationsShouldWorkCorrectly() {
+        Task task1 = new Task("Задача1", "Описание1", Status.NEW);
+        Task task2 = new Task("Задача2", "Описание1", Status.NEW);
+        Task task3 = new Task("Задача3", "Описание1", Status.NEW);
+        Task task4 = new Task("Задача4", "Описание1", Status.NEW);
+        Task task5 = new Task("Задача5", "Описание1", Status.NEW);
 
+        taskManager.addTask(task1);
+        taskManager.addTask(task2);
+        taskManager.addTask(task3);
+        taskManager.addTask(task4);
+        taskManager.addTask(task5);
+
+        taskManager.getTask(0);
+        taskManager.getTask(1);
+        taskManager.getTask(2);
+        taskManager.getTask(3);
+        taskManager.getTask(4);
+        taskManager.getTask(2);
+        Assertions.assertEquals(5, taskManager.getHistory().size());
+    }
+    @Test
+    void settersDoNotAffectTheDataInTheManager() {
+        Task task = new Task("Задача1", "Описание1", Status.NEW);
+        task.setId(10);
+        taskManager.addTask(task);
+        Assertions.assertEquals(0, task.getId());
+    }
 }
