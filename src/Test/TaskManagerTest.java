@@ -1,6 +1,5 @@
 package Test;
 
-import main.*;
 import java.util.ArrayList;
 import main.controllers.Managers;
 import main.controllers.TaskManager;
@@ -10,10 +9,6 @@ import main.util.Status;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class TaskManagerTest {
     private TaskManager taskManager;
@@ -99,6 +94,7 @@ public class TaskManagerTest {
         Assertions.assertNotNull(epics, "Эпики не возвращаются");
         Assertions.assertNotNull(subtasks, "Подзадачи не возвращаются");
     }
+
     @Test
     void tasksWithTheSpecifiedGeneratedIdShouldNotConflict() {
         Task task1 = new Task("Задача1", "Описание1", Status.NEW);
@@ -109,6 +105,7 @@ public class TaskManagerTest {
         Assertions.assertEquals(0, task1.getId(), "Неверно генерируется id для задач с заданным id");
         Assertions.assertEquals(1, task2.getId(), "Неверно генерируется id");
     }
+
     @Test
     void historyManagerMustSaveThePreviousVersionOfTheTask() {
         Task task = new Task("Задача1", "Описание1", Status.NEW);
@@ -128,6 +125,7 @@ public class TaskManagerTest {
         Assertions.assertEquals(1, taskManager.getHistory().get(1).getId());
         Assertions.assertEquals(Status.NEW, taskManager.getHistory().get(1).getStatus());
     }
+
     @Test
     void theTasksMustBeUnchangedInAllFields() {
         Task task = new Task("Задача1", "Описание1", Status.NEW);
@@ -141,6 +139,7 @@ public class TaskManagerTest {
         Assertions.assertEquals(Status.NEW, taskManager.getTask(0).getStatus());
         Assertions.assertEquals(0, taskManager.getTask(0).getId());
     }
+
     @Test
     void epicsSouldNotStoreIrrelevantSubtasks() {
         Epic epic = new Epic("Задача1", "Описание2", Status.NEW);
@@ -150,6 +149,7 @@ public class TaskManagerTest {
         taskManager.deleteSubtask(1);
         Assertions.assertEquals(0, epic.getSubtasks().size());
     }
+
     @Test
     void theBuilt_inLinkedListAndOperationsShouldWorkCorrectly() {
         Task task1 = new Task("Задача1", "Описание1", Status.NEW);
@@ -172,6 +172,7 @@ public class TaskManagerTest {
         taskManager.getTask(2);
         Assertions.assertEquals(5, taskManager.getHistory().size());
     }
+
     @Test
     void settersDoNotAffectTheDataInTheManager() {
         Task task = new Task("Задача1", "Описание1", Status.NEW);
