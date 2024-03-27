@@ -40,7 +40,7 @@ public interface TaskManager {
     ArrayList<Task> getTasks();
 
     ArrayList<Subtask> getSubtasks();
-    
+
     ArrayList<Epic> getEpics();
 
     ArrayList<Task> getHistory();
