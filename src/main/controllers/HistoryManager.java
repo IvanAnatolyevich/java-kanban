@@ -9,5 +9,4 @@ public interface HistoryManager {
 
     ArrayList<Task> getHistory();
 
-    void remove(int id);
 }

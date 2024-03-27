@@ -48,7 +48,7 @@ public InMemoryTaskManager(HistoryManager historyManager) {
 
    @Override
    public Epic addEpic(Epic newEpic) {
-      Epic epic = new Epic(newEpic.getTitle(), newEpic.getDiscription(), newEpic.getStatus());
+      Epic epic = new Epic(newEpic.getTitle(), newEpic.getDiscription());
       newEpic.setId(IdGenerate.generationNewId());
       epic.setId(newEpic.getId());
       epics.put(epic.getId(), epic);

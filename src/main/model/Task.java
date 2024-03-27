@@ -9,6 +9,11 @@ public class Task {
    private String discription;
    private String title;
 
+   public Task(String title, String discription) {
+       this.title = title;
+       this.discription = discription;
+   }
+
    public Task(String title, String discription, Status status) {
        this.title = title;
        this.discription = discription;
