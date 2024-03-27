@@ -2,11 +2,10 @@ package main.controllers;
 import main.util.IdGenerate;
 import main.util.Status;
 import main.model.*;
-
-
 import java.util.HashMap;
 import java.util.ArrayList;
-public class InMemoryTaskManager implements TaskManager{
+
+public class InMemoryTaskManager implements TaskManager {
 private HashMap<Integer, Task> tasks = new HashMap<>();
 private HashMap<Integer, Subtask> subtasks = new HashMap<>();
 private HashMap<Integer, Epic> epics = new HashMap<>();
@@ -63,9 +62,9 @@ public InMemoryTaskManager(HistoryManager historyManager) {
 
    @Override
    public void removeSubtaskAll() {
-      for(Epic el: epics.values()) {
+      for (Epic el: epics.values()) {
          for (int id: subtasks.keySet()) {
-            if(el.getSubtasks().contains(el.getSubtasks().get(id))) {
+            if (el.getSubtasks().contains(el.getSubtasks().get(id))) {
                el.getSubtasks().remove(id);
                changeEpicStatus(el);
             }
@@ -100,8 +99,8 @@ public InMemoryTaskManager(HistoryManager historyManager) {
    @Override
    public Epic deleteEpic(int id) {
       Epic epic = epics.get(id);
-      for(Subtask el: subtasks.values()) {
-         for(Integer i: epics.get(id).getSubtasks()) {
+      for (Subtask el: subtasks.values()) {
+         for (Integer i: epics.get(id).getSubtasks()) {
             if (el.getId() == i) {
                subtasks.remove(id);
             }
@@ -168,18 +167,18 @@ public InMemoryTaskManager(HistoryManager historyManager) {
    }
 
    @Override
-   public ArrayList<Task> getHistory(){
+   public ArrayList<Task> getHistory() {
       return historyManager.getHistory();
    }
 
    private void changeEpicStatus(Epic epic) {
-      if(epic.getSubtasks().isEmpty()) {
+      if (epic.getSubtasks().isEmpty()) {
          return;
       }
       int countNew = 0;
       int countDone = 0;
-      for(Integer id: epic.getSubtasks()) {
-         switch(subtasks.get(id).getStatus()) {
+      for (Integer id: epic.getSubtasks()) {
+         switch (subtasks.get(id).getStatus()) {
             case Status.NEW:
                countNew++;
                break;
@@ -190,7 +189,7 @@ public InMemoryTaskManager(HistoryManager historyManager) {
                countDone++;
                break;
          }
-         if(countNew == epic.getSubtasks().size()) {
+         if (countNew == epic.getSubtasks().size()) {
             return;
          }
          if (countDone == epic.getSubtasks().size()) {
