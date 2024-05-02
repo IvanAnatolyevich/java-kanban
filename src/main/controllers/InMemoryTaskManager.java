@@ -1,5 +1,4 @@
 package main.controllers;
-import main.exceptions.ManagerSaveException;
 import main.util.IdGenerate;
 import main.util.Status;
 import main.model.*;
