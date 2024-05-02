@@ -7,8 +7,6 @@ import main.util.IdGenerate;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -18,17 +16,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() throws ManagerSaveException {
         try (Writer fileWriter = new FileWriter("File.SCV")) {
-            if(!getTasks().isEmpty()) {
+            if (!getTasks().isEmpty()) {
                 for (Task el: tasks.values()) {
                     fileWriter.write(el.toString() + "\n");
                 }
             }
-            if(!getEpics().isEmpty()) {
+            if (!getEpics().isEmpty()) {
                 for (Epic el: epics.values()) {
                     fileWriter.write(el.toString() + "\n");
                 }
             }
-            if(!getSubtasks().isEmpty()) {
+            if (!getSubtasks().isEmpty()) {
                 for (Subtask el: subtasks.values()) {
                     fileWriter.write(el.toString() + "\n");
                 }
@@ -48,7 +46,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                    Task task = Task.fromString(el);
                    tasks.put(task.getId(), task);
                } else if (obj[1].equals("Epic")) {
-                   Epic epic =(Epic) Epic.fromString(el);
+                   Epic epic = (Epic) Epic.fromString(el);
                    epics.put(epic.getId(), epic);
                } else if (obj[1].equals("Subtask")) {
                    Subtask subtask = (Subtask) Subtask.fromString(el);
@@ -69,7 +67,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Subtask addSubtask(Subtask newSuptask, int epicId) throws ManagerSaveException{
+    public Subtask addSubtask(Subtask newSuptask, int epicId) throws ManagerSaveException {
         for (Integer i: epics.keySet()) {
             if (epicId == i) {
                 newSuptask.setEpicId(epicId);
