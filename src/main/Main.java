@@ -3,31 +3,56 @@ import main.controllers.*;
 import main.model.*;
 import main.util.Status;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ManagerSaveException {
         TaskManager taskManager = Managers.getDefaultTaskManager();
-        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+        FileBackedTaskManager file = new FileBackedTaskManager(Managers.getDefaultHistoryManager());
+
         Task task1 = new Task("Задача1", "Описание1", Status.NEW);
-        Task task2 = new Task("Задача2", "Описание1", Status.NEW);
-        Task task3 = new Task("Задача3", "Описание1", Status.NEW);
-        Task task4 = new Task("Задача4", "Описание1", Status.NEW);
-        Task task5 = new Task("Задача5", "Описание1", Status.NEW);
+        Epic epic = new Epic("Задача2", "Описание2", Status.NEW);
+        Subtask subtask = new Subtask("Задача3", "Описание3", Status.NEW);
 
-        taskManager.addTask(task1);
-        taskManager.addTask(task2);
-        taskManager.addTask(task3);
-        taskManager.addTask(task4);
-        taskManager.addTask(task5);
 
-        taskManager.getTask(0);
-        taskManager.getTask(1);
-        taskManager.getTask(2);
-        taskManager.getTask(3);
-        taskManager.getTask(4);
-        taskManager.getTask(0);
-        taskManager.getTask(2);
+        file.addTask(task1);
+        file.addEpic(epic);
 
-        System.out.println(taskManager.getHistory());
-    }
-}
+
+
+//        Writer fileWriter = new FileWriter("File.SCV");
+//        fileWriter.write(task1.toString() + "\n");
+//        fileWriter.write(epic.toString() + "\n");
+//        fileWriter.write(subtask.toString() + "\n");
+//
+//        fileWriter.close();
+
+
+
+            List<String> lines =  Files.readAllLines(Paths.get("File.SCV"));
+        System.out.println(Task.class.getSimpleName().equals("Task"));
+        taskManager.removeTaskAll();
+
+        FileBackedTaskManager o = FileBackedTaskManager.loadFromFile(Paths.get("File.SCV").toFile());
+
+        System.out.println(o.getTasks());
+
+        for (String s: lines) {
+            System.out.println(s);
+        }
+
+
+
+
+
+        }
+        }
+
+
+
+

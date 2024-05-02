@@ -39,7 +39,15 @@ public class Task {
 
     @Override
     public String toString() {
-        return title;
+        return id + "," + getClass().getSimpleName() + "," + title + "," + status + "," + discription;
+    }
+
+    public static Task fromString(String value) {
+       String[] obj = value.split(",");
+       Task task = new Task(obj[2], obj[4]);
+       task.setId(Integer.parseInt(obj[0]));
+       task.setStatus(Status.valueOf(obj[3]));
+       return task;
     }
 
     public void setStatus(Status status) {
