@@ -63,10 +63,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public Task addTask(Task newTask) throws ManagerSaveException {
-//        Task task = new Task(newTask.getTitle(), newTask.getDiscription(), newTask.getStatus());
-//        newTask.setId(IdGenerate.generationNewId());
-//        task.setId(newTask.getId());
-//        tasks.put(task.getId(), task);
         Task task = super.addTask(newTask);
         save();
         return task;
@@ -90,8 +86,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         subtask.setEpicId(newSuptask.getEpicId());
         epics.get(epicId).getSubtasks().add(subtask.getId());
         subtasks.put(subtask.getId(), subtask);
-//        changeEpicStatus(epics.get(subtask.getEpicId()));
-
         save();
         return subtask;
     }

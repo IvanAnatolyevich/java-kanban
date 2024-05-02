@@ -14,6 +14,7 @@ public class Subtask extends Task {
     public String toString() {
         return super.toString() + "," + epicId;
     }
+
     public static Subtask fromString(String value) {
         String[] obj = value.split(",");
         Subtask subtask = new Subtask(obj[2], obj[4], Status.valueOf(obj[3]));
