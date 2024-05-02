@@ -1,5 +1,6 @@
 package main.controllers;
 
+import main.exceptions.ManagerSaveException;
 import main.model.Epic;
 import main.model.Subtask;
 import main.model.Task;
@@ -14,22 +15,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super(historyManager);
     }
 
-    public void save() throws ManagerSaveException {
+    public void save() {
         try (Writer fileWriter = new FileWriter("File.SCV")) {
-            if (!getTasks().isEmpty()) {
-                for (Task el: tasks.values()) {
-                    fileWriter.write(el.toString() + "\n");
-                }
+            for (Task el: tasks.values()) {
+                fileWriter.write(el.toString() + "\n");
             }
-            if (!getEpics().isEmpty()) {
-                for (Epic el: epics.values()) {
-                    fileWriter.write(el.toString() + "\n");
-                }
+            for (Epic el: epics.values()) {
+                fileWriter.write(el.toString() + "\n");
             }
-            if (!getSubtasks().isEmpty()) {
-                for (Subtask el: subtasks.values()) {
-                    fileWriter.write(el.toString() + "\n");
-                }
+            for (Subtask el: subtasks.values()) {
+                fileWriter.write(el.toString() + "\n");
             }
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка сохранения файла");
@@ -60,131 +55,83 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Task addTask(Task newTask) throws ManagerSaveException {
+    public Task addTask(Task newTask) {
         Task task = super.addTask(newTask);
         save();
         return task;
     }
 
     @Override
-    public Subtask addSubtask(Subtask newSuptask, int epicId) throws ManagerSaveException {
-        for (Integer i: epics.keySet()) {
-            if (epicId == i) {
-                newSuptask.setEpicId(epicId);
-                break;
-            }
-        }
-        if (newSuptask.getEpicId() == null) {
-            System.out.println("Введен неверный индекс эпика.");
-            return newSuptask;
-        }
-        Subtask subtask = new Subtask(newSuptask.getTitle(), newSuptask.getDiscription(), newSuptask.getStatus());
-        newSuptask.setId(IdGenerate.generationNewId());
-        subtask.setId(newSuptask.getId());
-        subtask.setEpicId(newSuptask.getEpicId());
-        epics.get(epicId).getSubtasks().add(subtask.getId());
-        subtasks.put(subtask.getId(), subtask);
+    public Subtask addSubtask(Subtask newSuptask, int epicId) {
+        Subtask subtask = super.addSubtask(newSuptask, epicId);
         save();
         return subtask;
     }
 
     @Override
-    public Epic addEpic(Epic newEpic) throws ManagerSaveException {
+    public Epic addEpic(Epic newEpic) {
         Epic epic = super.addEpic(newEpic);
         save();
         return epic;
     }
 
     @Override
-    public void removeTaskAll() throws ManagerSaveException {
-        tasks.clear();
+    public void removeTaskAll() {
+        super.removeTaskAll();
         save();
     }
 
     @Override
-    public void removeSubtaskAll() throws ManagerSaveException {
-        for (Epic el: epics.values()) {
-            for (int id: subtasks.keySet()) {
-                if (el.getSubtasks().contains(el.getSubtasks().get(id))) {
-                    el.getSubtasks().remove(id);
-                    changeEpicStatus(el);
-                }
-            }
-        }
-        subtasks.clear();
+    public void removeSubtaskAll() {
+        super.removeSubtaskAll();
         save();
     }
 
     @Override
-    public void removeEpicAll() throws ManagerSaveException {
-        epics.clear();
-        subtasks.clear();
+    public void removeEpicAll() {
+        super.removeEpicAll();
         save();
     }
 
     @Override
-    public Task deleteTask(int id) throws ManagerSaveException {
-        Task task = tasks.get(id);
-        tasks.remove(id);
+    public Task deleteTask(int id) {
+        Task task = super.deleteTask(id);
         save();
         return task;
     }
 
     @Override
-    public Subtask deleteSubtask(int id) throws ManagerSaveException {
-        Subtask subtask = subtasks.get(id);
-        epics.get(subtasks.get(id).getEpicId()).getSubtasks().remove(Integer.valueOf(id));
-        changeEpicStatus(epics.get(subtasks.get(id).getEpicId()));
-        subtasks.get(id).setId(-1);
-        subtasks.remove(subtask.getId());
+    public Subtask deleteSubtask(int id) {
+        Subtask subtask = super.deleteSubtask(id);
         save();
         return subtask;
     }
 
     @Override
-    public Epic deleteEpic(int id) throws ManagerSaveException {
-        Epic epic = epics.get(id);
-        for (Subtask el: subtasks.values()) {
-            for (Integer i: epics.get(id).getSubtasks()) {
-                if (el.getId() == i) {
-                    subtasks.remove(id);
-                }
-            }
-        }
-        epics.remove(id);
+    public Epic deleteEpic(int id) {
+        Epic epic = super.deleteEpic(id);
         save();
         return epic;
     }
 
     @Override
-    public Task updatedTask(Task updatedTask) throws ManagerSaveException {
-        tasks.put(updatedTask.getId(), updatedTask);
+    public Task updatedTask(Task updatedTask) {
+        super.updatedTask(updatedTask);
         save();
         return updatedTask;
     }
 
     @Override
-    public Subtask updatedSubtask(Subtask updatedSubtask) throws ManagerSaveException {
-        subtasks.put(updatedSubtask.getId(), updatedSubtask);
-        changeEpicStatus(epics.get(updatedSubtask.getEpicId()));
+    public Subtask updatedSubtask(Subtask updatedSubtask) {
+        super.updatedSubtask(updatedSubtask);
         save();
         return updatedSubtask;
     }
 
     @Override
-    public Epic updatedEpic(Epic updatedEpic) throws ManagerSaveException {
-        changeEpicStatus(updatedEpic);
-        epics.put(updatedEpic.getId(), updatedEpic);
+    public Epic updatedEpic(Epic updatedEpic) {
+        super.updatedEpic(updatedEpic);
         save();
         return updatedEpic;
     }
-
-
-
-
-
-
-
-
-
 }
