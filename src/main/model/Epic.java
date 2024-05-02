@@ -11,6 +11,7 @@ private ArrayList<Integer> subtasks = new ArrayList<>();
 public Epic(String title, String discription) {
     super(title, discription);
 }
+
 public Epic(String title, String discription, Status status) {
         super(title, discription, status);
     }
