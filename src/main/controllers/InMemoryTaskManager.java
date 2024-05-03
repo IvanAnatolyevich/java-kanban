@@ -5,15 +5,16 @@ import main.model.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public class InMemoryTaskManager implements TaskManager {
-private HashMap<Integer, Task> tasks = new HashMap<>();
-private HashMap<Integer, Subtask> subtasks = new HashMap<>();
-private HashMap<Integer, Epic> epics = new HashMap<>();
-private HistoryManager historyManager;
+class InMemoryTaskManager implements TaskManager {
+protected static HashMap<Integer, Task> tasks = new HashMap<>();
+protected static HashMap<Integer, Subtask> subtasks = new HashMap<>();
+protected static HashMap<Integer, Epic> epics = new HashMap<>();
+protected HistoryManager historyManager;
 
 public InMemoryTaskManager(HistoryManager historyManager) {
    this.historyManager = historyManager;
 }
+
 
    @Override
    public Task addTask(Task newTask) {
@@ -51,6 +52,7 @@ public InMemoryTaskManager(HistoryManager historyManager) {
       Epic epic = new Epic(newEpic.getTitle(), newEpic.getDiscription());
       newEpic.setId(IdGenerate.generationNewId());
       epic.setId(newEpic.getId());
+      epic.setStatus(newEpic.getStatus());
       epics.put(epic.getId(), epic);
       return epic;
    }
@@ -145,7 +147,6 @@ public InMemoryTaskManager(HistoryManager historyManager) {
    public Epic updatedEpic(Epic updatedEpic) {
       changeEpicStatus(updatedEpic);
       epics.put(updatedEpic.getId(), updatedEpic);
-
       return updatedEpic;
    }
 
@@ -171,7 +172,7 @@ public InMemoryTaskManager(HistoryManager historyManager) {
       return historyManager.getHistory();
    }
 
-   private void changeEpicStatus(Epic epic) {
+   protected void changeEpicStatus(Epic epic) {
       if (epic.getSubtasks().isEmpty()) {
          return;
       }

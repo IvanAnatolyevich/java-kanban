@@ -1,5 +1,6 @@
 package main.controllers;
 
+import main.exceptions.ManagerSaveException;
 import main.model.Epic;
 import main.model.Subtask;
 import main.model.Task;
@@ -7,35 +8,35 @@ import java.util.ArrayList;
 
 public interface TaskManager {
 
-    Task addTask(Task newTask);
+    Task addTask(Task newTask) throws ManagerSaveException;
 
-    Subtask addSubtask(Subtask newSuptask, int epicId);
+    Subtask addSubtask(Subtask newSuptask, int epicId) throws ManagerSaveException;
 
-    Epic addEpic(Epic newEpic);
+    Epic addEpic(Epic newEpic) throws ManagerSaveException;
 
-    void removeTaskAll();
+    void removeTaskAll() throws ManagerSaveException;
 
-    void removeSubtaskAll();
+    void removeSubtaskAll() throws ManagerSaveException;
 
-    void removeEpicAll();
+    void removeEpicAll() throws ManagerSaveException;
 
-    Task deleteTask(int id);
+    Task deleteTask(int id) throws ManagerSaveException;
 
-    Subtask deleteSubtask(int id);
+    Subtask deleteSubtask(int id) throws ManagerSaveException;
 
-    Epic deleteEpic(int id);
+    Epic deleteEpic(int id) throws ManagerSaveException;
 
-    Task getTask(int id);
+    Task getTask(int id) throws ManagerSaveException;
 
-    Subtask getSubtask(int id);
+    Subtask getSubtask(int id) throws ManagerSaveException;
 
-    Epic getEpic(int id);
+    Epic getEpic(int id) throws ManagerSaveException;
 
-    Task updatedTask(Task updatedTask);
+    Task updatedTask(Task updatedTask) throws ManagerSaveException;
 
-    Subtask updatedSubtask(Subtask updatedSubtask);
+    Subtask updatedSubtask(Subtask updatedSubtask) throws ManagerSaveException;
 
-    Epic updatedEpic(Epic updatedEpic);
+    Epic updatedEpic(Epic updatedEpic) throws ManagerSaveException;
 
     ArrayList<Task> getTasks();
 
