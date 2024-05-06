@@ -30,7 +30,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public static FileBackedTaskManager loadFromFile(File file) {
+    public FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(Managers.getDefaultHistoryManager());
        try {
            List<String> strings = Files.readAllLines(file.toPath());
@@ -38,13 +38,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                String[] obj = el.split(",");
                if (obj[1].equals("Task")) {
                    Task task = Task.fromString(el);
-                   tasks.put(task.getId(), task);
+                   fileBackedTaskManager.tasks.put(task.getId(), task);
                } else if (obj[1].equals("Epic")) {
                    Epic epic = (Epic) Epic.fromString(el);
-                   epics.put(epic.getId(), epic);
+                   fileBackedTaskManager.epics.put(epic.getId(), epic);
                } else if (obj[1].equals("Subtask")) {
                    Subtask subtask = (Subtask) Subtask.fromString(el);
-                   subtasks.put(subtask.getId(), subtask);
+                   fileBackedTaskManager.subtasks.put(subtask.getId(), subtask);
                }
            }
            return fileBackedTaskManager;
