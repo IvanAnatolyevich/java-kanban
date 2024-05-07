@@ -246,6 +246,7 @@ public class TaskManagerTest {
         ArrayList<Task> array = taskManager.getHistory();
 
         Assertions.assertEquals(taskManager.getTasks(), array);
+
     }
 
     @Test
@@ -269,7 +270,7 @@ public class TaskManagerTest {
         task.setStartTime(LocalDateTime.of(2020,10,13, 9, 0));
         task.setDuration(Duration.ofHours(2)); //11
 
-        task1.setStartTime(LocalDateTime.of(2020,10,13, 3, 0));
+        task1.setStartTime(LocalDateTime.of(2020,10,13, 0, 0));
         task1.setDuration(Duration.ofHours(2)); //5
 
         task2.setStartTime(LocalDateTime.of(2020,10,13, 0, 0));
@@ -284,12 +285,12 @@ public class TaskManagerTest {
         taskManager.addTask(task3);
 
         boolean equ = taskManager.getTasks().stream()
-                .allMatch((obj1) -> taskManager.isIntersectingTask(obj1, task));
+                .allMatch((obj1) -> taskManager.isIntersecting(obj1, task));
 
         Assertions.assertEquals(true, equ);
 
          equ = taskManager.getTasks().stream()
-                .allMatch((obj1) -> taskManager.isIntersectingTask(obj1, task1));
+                .allMatch((obj1) -> taskManager.isIntersecting(obj1, task2));
 
         Assertions.assertEquals(false, equ);
 

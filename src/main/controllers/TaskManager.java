@@ -7,6 +7,7 @@ import main.model.Task;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public interface TaskManager {
@@ -55,17 +56,9 @@ public interface TaskManager {
 
     public LocalDateTime getEndTimeEpic(Epic epic);
 
+    List<Task> getPrioritized();
+
+    boolean isIntersecting(Task task1, Task task2);
 
 
-    Set<Task> getPrioritizedTasks();
-
-    Set<Epic> getPrioritizedEpics();
-
-    Set<Subtask> getPrioritizedSubtasks();
-
-    boolean isIntersectingTask(Task task1, Task task2);
-
-    boolean isIntersectingEpic(Epic epic1, Epic epic2);
-
-    boolean isIntersectingSubtask(Subtask subtask1, Subtask subtask2);
 }

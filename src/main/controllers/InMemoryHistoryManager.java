@@ -41,7 +41,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             history.put(task.getId(), linkLast(task));
     }
 
-    private void remove(int id) {
+    public void remove(int id) {
         history.remove(id);
     }
 
