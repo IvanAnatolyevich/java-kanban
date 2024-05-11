@@ -1,5 +1,4 @@
 package main.model;
-import User.User;
 import main.util.Status;
 
 import java.time.Duration;
