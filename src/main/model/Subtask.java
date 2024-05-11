@@ -2,12 +2,19 @@ package main.model;
 
 import main.util.Status;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private Integer epicId;
 
 
     public Subtask(String title, String discription, Status status) {
         super(title, discription, status);
+    }
+
+    public Subtask(String title, String discription, Status status, Duration duration, LocalDateTime startTime) {
+        super(title, discription, status, duration, startTime);
     }
 
     @Override

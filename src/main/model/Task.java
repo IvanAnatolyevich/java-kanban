@@ -1,6 +1,9 @@
 package main.model;
 import main.util.Status;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -8,6 +11,8 @@ public class Task {
    private Status status;
    private String discription;
    private String title;
+   private Duration duration;
+   private LocalDateTime startTime;
 
    public Task(String title, String discription) {
        this.title = title;
@@ -19,6 +24,14 @@ public class Task {
        this.discription = discription;
        this.status = status;
    }
+
+    public Task(String title, String discription, Status status, Duration duration, LocalDateTime startTime) {
+        this.title = title;
+        this.discription = discription;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -39,14 +52,30 @@ public class Task {
 
     @Override
     public String toString() {
-        return id + "," + getClass().getSimpleName() + "," + title + "," + status + "," + discription;
-    }
+        String str = id + "," + getClass().getSimpleName() + "," + title + "," + status + "," + discription;
+                if (startTime != null) {
+                    if (duration != null) {
+                        return str + "," + startTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm")) +
+                                "," + duration.toMinutes();
+                    }
+                    return str + "," + startTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm"));
+                } else if (duration != null) {
+                    return str + "," + "," + duration.toMinutes();
+                }
+                return str;
+   }
 
     public static Task fromString(String value) {
        String[] obj = value.split(",");
        Task task = new Task(obj[2], obj[4]);
        task.setId(Integer.parseInt(obj[0]));
        task.setStatus(Status.valueOf(obj[3]));
+       if (obj.length > 5 && !obj[5].isBlank()) {
+           task.setStartTime(LocalDateTime.parse(obj[5]));
+       }
+       if (obj.length > 6 && !obj[6].isBlank()) {
+           task.setDuration(Duration.ofMinutes(Integer.parseInt(obj[6])));
+       }
        return task;
     }
 
@@ -81,6 +110,27 @@ public class Task {
     public void setDiscription(String discription) {
        this.discription = discription;
     }
+
+    public LocalDateTime getStartTime() {
+       return startTime;
+    }
+
+    public void setDuration(Duration duration) {
+       this.duration = duration;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+       this.startTime = startTime;
+    }
+
+    public Duration getDuration() {
+       return duration;
+    }
+
+    public LocalDateTime getEndTask() {
+        return getStartTime().plus(getDuration());
+    }
+
 }
 
 

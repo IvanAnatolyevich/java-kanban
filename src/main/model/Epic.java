@@ -2,10 +2,12 @@ package main.model;
 
 import main.util.Status;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
 private ArrayList<Integer> subtasks = new ArrayList<>();
+private LocalDateTime endTime = null;
 
 
 public Epic(String title, String discription) {
@@ -27,6 +29,10 @@ public static Task fromString(String value) {
 
 public ArrayList<Integer> getSubtasks() {
     return subtasks;
+}
+
+public void setEndTime(LocalDateTime endTime) {
+    this.endTime = endTime;
 }
 
 }

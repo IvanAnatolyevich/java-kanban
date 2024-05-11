@@ -4,7 +4,10 @@ import main.exceptions.ManagerSaveException;
 import main.model.Epic;
 import main.model.Subtask;
 import main.model.Task;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
 
@@ -45,4 +48,16 @@ public interface TaskManager {
     ArrayList<Epic> getEpics();
 
     ArrayList<Task> getHistory();
+
+    LocalDateTime getEndTask(Task task);
+
+    LocalDateTime getEndSubtask(Subtask subtask);
+
+    public LocalDateTime getEndTimeEpic(Epic epic);
+
+    List<Task> getPrioritized();
+
+    boolean isIntersecting(Task task1, Task task2);
+
+
 }
