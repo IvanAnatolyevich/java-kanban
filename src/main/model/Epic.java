@@ -2,6 +2,7 @@ package main.model;
 
 import main.util.Status;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -16,7 +17,12 @@ public Epic(String title, String discription) {
 
 public Epic(String title, String discription, Status status) {
         super(title, discription, status);
-    }
+}
+
+public Epic(String title, String discription, Status status, Duration duration, LocalDateTime startTime) {
+    super(title, discription, status, duration, startTime);
+}
+
 
 
 public static Task fromString(String value) {
