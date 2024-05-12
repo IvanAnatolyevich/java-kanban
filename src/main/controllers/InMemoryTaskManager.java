@@ -52,6 +52,8 @@ class InMemoryTaskManager implements TaskManager {
       newSuptask.setId(IdGenerate.generationNewId());
       subtask.setId(newSuptask.getId());
       subtask.setEpicId(newSuptask.getEpicId());
+      subtask.setDuration(newSuptask.getDuration());
+      subtask.setStartTime(newSuptask.getStartTime());
       boolean equ = getPrioritized().stream()
               .allMatch((obj1) -> isIntersecting(obj1, subtask));
       if (!equ) {
@@ -70,6 +72,8 @@ class InMemoryTaskManager implements TaskManager {
       newEpic.setId(IdGenerate.generationNewId());
       epic.setId(newEpic.getId());
       epic.setStatus(newEpic.getStatus());
+      epic.setStartTime(newEpic.getStartTime());
+      epic.setDuration(newEpic.getDuration());
       boolean equ = getPrioritized().stream()
               .allMatch((obj1) -> isIntersecting(obj1, epic));//
       if (!equ) {

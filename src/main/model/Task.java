@@ -33,6 +33,25 @@ public class Task {
         this.startTime = startTime;
     }
 
+    public Task(int id, Status status, String discription, String title,
+                Duration duration, LocalDateTime startTime) {
+        this.id = id;
+        this.status = status;
+        this.discription = discription;
+        this.title = title;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
+
+
+    public Task(Task task) {
+        this.status = task.getStatus();
+        this.discription = task.getDiscription();
+        this.title = task.getTitle();
+        this.duration = task.getDuration();
+        this.startTime = task.getStartTime();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -130,6 +149,7 @@ public class Task {
     public LocalDateTime getEndTask() {
         return getStartTime().plus(getDuration());
     }
+
 
 }
 
