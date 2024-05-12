@@ -1,7 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import main.controllers.Managers;
-import main.controllers.TaskManager;
 import main.model.Epic;
 import main.model.Subtask;
 import main.model.Task;
@@ -9,7 +8,7 @@ import main.util.Status;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import server.HttpUserServer;
+import server.HttpTaskServer;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -20,14 +19,13 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HttpUserServerTest {
+class HttpTaskServerTest {
 
-    private HttpUserServer userServer;
+    private HttpTaskServer userServer;
     private final Gson gson = Managers.getGson();
     private Task task;
     private Epic epic;
@@ -36,7 +34,7 @@ class HttpUserServerTest {
 
     @BeforeEach
     void init() throws IOException {
-        userServer = new HttpUserServer(Managers.getDefaultTaskManager());
+        userServer = new HttpTaskServer(Managers.getDefaultTaskManager());
 
          task = new Task("Test task" , "Test task description",
                 Status.NEW, Duration.ofMinutes(15),
